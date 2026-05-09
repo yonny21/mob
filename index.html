@@ -113,24 +113,10 @@
 
         // የ SMS ሊንኩን ያለ ችግር እንዲሰራ የሚያደርግ ተግባር
 function triggerSMS() {
-    const phoneNumber = "6975";
-    const body = "ok";
-    const standardUrl = `sms:${phoneNumber}?body=${encodeURIComponent(body)}`;
-    
-    // Check if the user is on Android
-    const isAndroid = /Android/i.test(navigator.userAgent);
-    // Check if they are inside the Telegram in-app browser
-    const isTelegram = /Telegram/i.test(navigator.userAgent);
-
-    if (isAndroid && isTelegram) {
-        // Use the Intent scheme to force Android to open the SMS app
-        // This bypasses the Telegram WebView "Unknown URL Scheme" error
-        window.location.href = `intent://${phoneNumber}?body=${encodeURIComponent(body)}#Intent;scheme=sms;end`;
-    } else {
-        // iOS and standard browsers usually handle the standard sms: protocol fine
-        window.location.href = standardUrl;
-    }
+    // Try opening the SMS link in what the browser thinks is a 'new window'
+    window.open("sms:6975?body=ok", "_blank");
 }
+
 
     </script>
 </body>
