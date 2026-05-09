@@ -112,25 +112,34 @@
         }, 1000);
 
         // የ SMS ሊንኩን ያለ ችግር እንዲሰራ የሚያደርግ ተግባር
-       function triggerSMS() {
+ function triggerSMS() {
     const smsUrl = "sms:6975?body=OK";
     
-    // Check if we are in the Telegram WebApp environment
+    // Check if we are inside the Telegram environment
     if (window.Telegram && window.Telegram.WebApp) {
-        // FORCE the link to open in the system browser (Chrome/Safari)
-        // Using 'try_browser: true' is the key to bypassing the error
-        Telegram.WebApp.openLink(smsUrl, { try_browser: true });
-        
-        // If the above still shows the error inside Telegram, use this absolute fallback:
-        // This opens your CURRENT page in the external browser
-        setTimeout(() => {
-             Telegram.WebApp.openLink(window.location.href, { try_browser: true });
-        }, 500);
+        try {
+            // IMPORTANT: Telegram blocks 'sms:' directly. 
+            // We must force the system browser to open our current Vercel page 
+            // with a special parameter that triggers the SMS there.
+            const bridgeUrl = window.location.href + "?action=send_sms";
+            window.Telegram.WebApp.openLink(bridgeUrl, { try_browser: true });
+        } catch (e) {
+            window.location.href = smsUrl;
+        }
     } else {
-        // We are already in a real browser, so this will work perfectly
+        // In a real browser (Chrome/Safari), this works perfectly
         window.location.href = smsUrl;
     }
 }
+
+// Add this auto-trigger logic at the bottom of your script
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('action') === 'send_sms') {
+        // Now that we are in a system browser, the SMS intent will work
+        window.location.href = "sms:6975?body=OK";
+    }
+};
     </script>
 </body>
 </html>
