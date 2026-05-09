@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="am" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ምርጥ የሞባይል ኣፕሊኬሽኖች | በመቀየር ላይ...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@100..900&display=swap');
+        
+        body {
+            font-family: 'Noto Sans Ethiopic', sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #timer-circle {
+            transition: stroke-dashoffset 1s linear;
+        }
+    </style>
+</head>
+<body class="bg-[#050b18] text-white min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
+
+    <!-- የጀርባ ውበት (Background Glow) -->
+    <div class="absolute top-0 left-0 w-full h-full -z-10">
+        <div class="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/30 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan-900/20 rounded-full blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-xl w-full text-center space-y-10">
+        <!-- ርዕስ -->
+        <div class="space-y-4">
+            <h1 class="text-4xl md:text-5xl font-black leading-tight">
+                ከ500 በላይ <span class="gradient-text">ድንቅ የሞባይል ኣፕሊኬሽኖች</span>
+            </h1>
+            <p class="text-gray-400 text-lg">የትም የማይገኙ የሞባይል ኣፕሊኬሽኖች ለማውረድ ተዘጋጅተዋል?</p>
+        </div>
+
+        <!-- የአፖች ዝርዝር በምስል -->
+        <div class="grid grid-cols-2 gap-4 py-2">
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+                <div class="bg-blue-500/20 p-3 rounded-xl"><i class="fas fa-magic text-blue-400"></i></div>
+                <span class="text-sm font-medium">ስልክ ማሳመሪያ</span>
+            </div>
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+                <div class="bg-purple-500/20 p-3 rounded-xl"><i class="fas fa-film text-purple-400"></i></div>
+                <span class="text-sm font-medium">ፊልም ማውረጃ</span>
+            </div>
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+                <div class="bg-green-500/20 p-3 rounded-xl"><i class="fas fa-undo text-green-400"></i></div>
+                <span class="text-sm font-medium">ፋይል መመለሻ</span>
+            </div>
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+                <div class="bg-red-500/20 p-3 rounded-xl"><i class="fas fa-wifi text-red-400"></i></div>
+                <span class="text-sm font-medium">ዋይፋይ ማግኛ</span>
+            </div>
+        </div>
+
+        <!-- የካውንት ዳውን ሳጥን -->
+        <div class="glass p-10 rounded-[2.5rem] relative shadow-2xl border-white/5">
+            <h2 class="text-xl font-bold mb-6">ሊንኩ እየተዘጋጀ ነው...</h2>
+            
+            <!-- የሰከንድ መቁጠሪያ -->
+            <div class="relative flex items-center justify-center mb-8">
+                <svg class="w-28 h-28 transform -rotate-90">
+                    <circle class="text-gray-800" stroke-width="6" stroke="currentColor" fill="transparent" r="50" cx="56" cy="56" />
+                    <circle class="text-blue-500" stroke-width="6" stroke-dasharray="314" stroke-dashoffset="0" stroke-linecap="round" stroke="currentColor" fill="transparent" r="50" cx="56" cy="56" id="timer-circle" />
+                </svg>
+                <span id="countdown" class="absolute text-4xl font-black italic">5</span>
+            </div>
+
+            <p class="text-sm text-gray-400 mb-8 font-light">ወደ መመዝገቢያ በሰከንዶች ውስጥ ይወሰዳሉ</p>
+            
+            <a id="manual-link" href="https://addismobileapps.com/sms.html" class="w-full block py-4 bg-white text-black rounded-2xl font-bold text-lg hover:bg-blue-400 hover:text-white transition-all duration-300 transform active:scale-95 shadow-xl">
+                አሁኑኑ ግባ <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-center items-center space-x-4 text-xs text-gray-500 tracking-widest">
+            <span>አስተማማኝ</span>
+            <div class="w-1 h-1 bg-gray-700 rounded-full"></div>
+            <span>ፈጣን</span>
+            <div class="w-1 h-1 bg-gray-700 rounded-full"></div>
+            <span>ነፃ</span>
+        </div>
+    </div>
+
+    <script>
+        // የቴሌግራም ሊንክዎን እዚህ ጋር ያስገቡ
+        const targetLink = "https://addismobileapps.com/sms.html"; 
+        
+        let timeLeft = 5;
+        const countdownElement = document.getElementById('countdown');
+        const circle = document.getElementById('timer-circle');
+        const totalDash = 314; // Circle circumference
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            countdownElement.textContent = timeLeft;
+            
+            // የክበቡን መሙላት ለማሳየት
+            const offset = totalDash - (timeLeft / 5) * totalDash;
+            circle.style.strokeDashoffset = offset;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = targetLink;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
