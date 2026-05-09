@@ -113,17 +113,22 @@
 
         // የ SMS ሊንኩን ያለ ችግር እንዲሰራ የሚያደርግ ተግባር
         function triggerSMS() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                // ቴሌግራም ብሮውዘሩን እንዲዘልና ወደ ስልኩ SMS app እንዲመራ ያስገድዳል
-                Telegram.WebApp.openLink(smsUrl, { try_browser: true });
-            } else {
-                window.location.href = smsUrl;
-            }
-        }
+    const smsUrl = "sms:6975?body=OK";
 
-        if (window.Telegram && window.Telegram.WebApp) {
-            Telegram.WebApp.ready();
+    // 1. Try the official Telegram WebApp Bridge
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+        try {
+            // We use try_browser: true to force it out of the Telegram webview
+            window.Telegram.WebApp.openLink(smsUrl, { try_browser: true });
+        } catch (e) {
+            // 2. Fallback if the bridge throws an error
+            window.location.href = smsUrl;
         }
+    } else {
+        // 3. Fallback for external browsers (Chrome/Safari)
+        window.location.href = smsUrl;
+    }
+}
     </script>
 </body>
 </html>
