@@ -112,34 +112,26 @@
         }, 1000);
 
         // የ SMS ሊንኩን ያለ ችግር እንዲሰራ የሚያደርግ ተግባር
- function triggerSMS() {
-    const smsUrl = "sms:6975?body=OK";
+function triggerSMS() {
+    const phoneNumber = "6975";
+    const body = "ok";
+    const standardUrl = `sms:${phoneNumber}?body=${encodeURIComponent(body)}`;
     
-    // Check if we are inside the Telegram environment
-    if (window.Telegram && window.Telegram.WebApp) {
-        try {
-            // IMPORTANT: Telegram blocks 'sms:' directly. 
-            // We must force the system browser to open our current Vercel page 
-            // with a special parameter that triggers the SMS there.
-            const bridgeUrl = window.location.href + "?action=send_sms";
-            window.Telegram.WebApp.openLink(bridgeUrl, { try_browser: true });
-        } catch (e) {
-            window.location.href = smsUrl;
-        }
+    // Check if the user is on Android
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    // Check if they are inside the Telegram in-app browser
+    const isTelegram = /Telegram/i.test(navigator.userAgent);
+
+    if (isAndroid && isTelegram) {
+        // Use the Intent scheme to force Android to open the SMS app
+        // This bypasses the Telegram WebView "Unknown URL Scheme" error
+        window.location.href = `intent://${phoneNumber}?body=${encodeURIComponent(body)}#Intent;scheme=sms;end`;
     } else {
-        // In a real browser (Chrome/Safari), this works perfectly
-        window.location.href = smsUrl;
+        // iOS and standard browsers usually handle the standard sms: protocol fine
+        window.location.href = standardUrl;
     }
 }
 
-// Add this auto-trigger logic at the bottom of your script
-window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('action') === 'send_sms') {
-        // Now that we are in a system browser, the SMS intent will work
-        window.location.href = "sms:6975?body=OK";
-    }
-};
     </script>
 </body>
 </html>
