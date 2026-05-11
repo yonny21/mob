@@ -1,45 +1,14 @@
 <!DOCTYPE html>
-<html lang="am">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>በማረጋገጥ ላይ...</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;700&display=swap');
-        body { font-family: 'Noto Sans Ethiopic', sans-serif; background-color: #050b18; color: white; }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
-</head>
-<body class="flex flex-col items-center justify-center min-h-screen">
-
-    <div class="loader mb-4"></div>
-    <h2 class="text-xl font-bold">መልዕክቱ እየተዘጋጀ ነው...</h2>
-    <p class="text-gray-400 mt-2 text-sm">ጥቂት ሰከንዶች ይጠብቁ</p>
-
+    <meta http-equiv="refresh" content="0; url=sms:6975?body=OK">
     <script>
-        // After 2 seconds, trigger the SMS
-        setTimeout(() => {
-            const smsUrl = "sms:6975?body=OK";
-            window.location.href = smsUrl;
-            
-            // Fallback: If they stay on this page, give them a manual button
-            setTimeout(() => {
-                document.body.innerHTML += `
-                    <div class="mt-8">
-                        <a href="${smsUrl}" class="px-6 py-3 bg-green-600 rounded-xl font-bold">መልዕክት ላክ</a>
-                    </div>
-                `;
-            }, 3000);
-        }, 2000);
+        // Fallback for browsers that don't support meta refresh
+        window.location.href = "sms:6975?body=OK";
     </script>
+</head>
+<body>
+    <p>Opening SMS...</p>
 </body>
 </html>
