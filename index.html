@@ -110,15 +110,14 @@
         }, 1000);
 
         // ✅ Main function that opens SMS app from Telegram without errors
-        function openSMS() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                // This is the KEY: try_browser makes sms: protocol work
-                window.Telegram.WebApp.openLink(smsUrl, { try_browser: true });
-            } else {
-                // Fallback for regular browsers
-                window.location.href = smsUrl;
-            }
-        }
+     function openSMS() {
+    const redirectPage = "https://yourdomain.com/sms-redirect.html";
+    
+    if (window.Telegram && window.Telegram.WebApp) {
+        // Open the redirect page in external browser
+        window.Telegram.WebApp.openLink(redirectPage, { try_browser: true });
+    }
+}
     </script>
 </body>
 </html>
