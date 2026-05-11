@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Opening SMS Messenger...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 32px;
+            padding: 48px 32px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            color: #1a1a2e;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        
+        .details {
+            background: #f0f0f0;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 24px 0;
+            text-align: left;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .detail-label {
+            color: #888;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+        
+        .manual-button {
+            background: #34B7F1;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            width: 100%;
+            transition: transform 0.2s, background 0.2s;
+        }
+        
+        .manual-button:hover {
+            background: #25a0d4;
+            transform: scale(0.98);
+        }
+        
+        .manual-button:active {
+            transform: scale(0.96);
+        }
+        
+        .loader {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .note {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 20px;
+        }
+        
+        .success {
+            color: #10b981;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="icon">📱</div>
+        <h1>Opening SMS Messenger...</h1>
+        <p>Please wait while we redirect you to your SMS app</p>
+        
+        <div class="loader" id="loader"></div>
+        
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">📞 Phone Number:</span>
+                <span class="detail-value">6975</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">💬 Pre-filled Message:</span>
+                <span class="detail-value">"OK"</span>
+            </div>
+        </div>
+        
+        <button class="manual-button" id="manualButton">
+            📨 Open SMS Manually
+        </button>
+        
+        <p class="note">
+            If SMS doesn't open automatically, tap the button above
+        </p>
+    </div>
+
+    <script>
+        // SMS Configuration
+        const SMS_URL = "sms:6975?body=OK";
+        let redirectAttempted = false;
+        
+        // Function to open SMS
+        function openSMS() {
+            window.location.href = SMS_URL;
+        }
+        
+        // Try automatic redirect
+        function attemptAutoRedirect() {
+            if (redirectAttempted) return;
+            redirectAttempted = true;
+            
+            // Try to open SMS directly
+            openSMS();
+            
+            // Show success message in UI
+            const loader = document.getElementById('loader');
+            const container = document.getElementById('mainContainer');
+            
+            setTimeout(() => {
+                if (loader) {
+                    loader.style.display = 'none';
+                }
+                // Update UI to show success
+                const icon = document.querySelector('.icon');
+                if (icon) {
+                    icon.innerHTML = '✅';
+                    icon.style.animation = 'none';
+                }
+                const title = document.querySelector('h1');
+                if (title) {
+                    title.innerHTML = 'Check your SMS app!';
+                    title.classList.add('success');
+                }
+                const paragraph = document.querySelector('p');
+                if (paragraph) {
+                    paragraph.innerHTML = 'The message "OK" has been prepared for number 6975. Just tap send!';
+                }
+            }, 500);
+        }
+        
+        // Try redirect immediately
+        attemptAutoRedirect();
+        
+        // Manual button click
+        const manualBtn = document.getElementById('manualButton');
+        if (manualBtn) {
+            manualBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openSMS();
+            });
+        }
+        
+        // Fallback: If after 3 seconds still here, show manual instructions more prominently
+        setTimeout(() => {
+            if (!redirectAttempted) {
+                const loader = document.getElementById('loader');
+                if (loader) loader.style.display = 'none';
+                
+                const manualBtn = document.getElementById('manualButton');
+                if (manualBtn) {
+                    manualBtn.style.background = '#10b981';
+                    manualBtn.style.transform = 'scale(1.05)';
+                }
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
