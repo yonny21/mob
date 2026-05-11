@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ምርጥ የአፖች ስብስብ | በመቀየር ላይ...</title>
     
-    <!-- የቴሌግራም ብሪጅ ስክሪፕት (ለ SMS ሊንክ ስራ አስፈላጊ ነው) -->
+    <!-- Telegram Web App SDK (required for SMS to work in Telegram) -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 <body class="bg-[#050b18] text-white min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
 
     <div class="max-w-xl w-full text-center space-y-8">
-        <!-- ዋና ርዕስ -->
+        <!-- Main Title -->
         <div class="space-y-4">
             <h1 class="text-4xl md:text-5xl font-black leading-tight">
                 ከ500 በላይ <span class="gradient-text">ድንቅ አፖች</span>
@@ -37,31 +37,31 @@
             <p class="text-gray-400">የትም የማይገኙ ምርጥ አፕሊኬሽኖችን ለማግኘት ተዘጋጅተዋል?</p>
         </div>
 
-        <!-- የአገልግሎቶች ዝርዝር -->
+        <!-- Features List -->
         <div class="grid grid-cols-2 gap-4 py-2">
-            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
                 <div class="bg-blue-500/20 p-3 rounded-xl"><i class="fas fa-magic text-blue-400"></i></div>
                 <span class="text-sm font-medium">የስልክ ማሳመሪያ</span>
             </div>
-            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
                 <div class="bg-purple-500/20 p-3 rounded-xl"><i class="fas fa-film text-purple-400"></i></div>
                 <span class="text-sm font-medium">የፊልም ማውረጃ</span>
             </div>
-            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
                 <div class="bg-green-500/20 p-3 rounded-xl"><i class="fas fa-trash-restore text-green-400"></i></div>
                 <span class="text-sm font-medium">የጠፋ ፋይል ማግኛ</span>
             </div>
-            <div class="glass p-4 rounded-2xl flex items-center space-x-4">
+            <div class="glass p-4 rounded-2xl flex items-center space-x-4 rtl:space-x-reverse">
                 <div class="bg-red-500/20 p-3 rounded-xl"><i class="fas fa-wifi text-red-400"></i></div>
                 <span class="text-sm font-medium">የዋይፋይ ፓስወርድ</span>
             </div>
         </div>
 
-        <!-- የ SMS ማረጋገጫ ሳጥን -->
+        <!-- SMS Verification Box -->
         <div class="glass p-8 rounded-[2.5rem] shadow-2xl relative">
             <h2 class="text-xl font-bold mb-6">ሊንኩን ለማግኘት ይመዝገቡ</h2>
             
-            <!-- የሰከንድ መቁጠሪያ -->
+            <!-- Countdown Timer -->
             <div class="relative flex items-center justify-center mb-8">
                 <svg class="w-24 h-24 transform -rotate-90">
                     <circle class="text-gray-800" stroke-width="6" stroke="currentColor" fill="transparent" r="45" cx="48" cy="48" />
@@ -70,15 +70,15 @@
                 <span id="countdown" class="absolute text-3xl font-black italic">5</span>
             </div>
 
-            <!-- ዋናው የ SMS ቁልፍ -->
-            <button onclick="forceSystemBrowser()" class="w-full py-4 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-bold text-lg transition-all transform active:scale-95 shadow-xl shadow-green-900/20 mb-4">
-                <i class="fas fa-sms mr-2"></i> አሁኑኑይመዝገቡ
+            <!-- SMS Button - This will open SMS app with "OK" message -->
+            <button onclick="openSMS()" class="w-full py-4 bg-green-600 hover:bg-green-500 text-white rounded-2xl font-bold text-lg transition-all transform active:scale-95 shadow-xl shadow-green-900/20 mb-4">
+                <i class="fas fa-sms mr-2"></i> አሁኑኑ ይመዝገቡ
             </button>
             
             <p class="text-[10px] text-gray-400">መመሪያ፡ ቁልፉን ሲጫኑ በስልክዎ ይላኩ።</p>
         </div>
 
-        <!-- ፉተር -->
+        <!-- Footer -->
         <div class="flex justify-center items-center space-x-4 text-xs text-gray-500 tracking-widest uppercase">
             <span>አስተማማኝ</span>
             <div class="w-1 h-1 bg-gray-700 rounded-full"></div>
@@ -89,9 +89,7 @@
     </div>
 
     <script>
-        // የቴሌግራም ቻናል ሊንክ
-        const targetLink = "addismobileapps.vercel.app"; 
-        // የ SMS መላኪያ ቁጥር እና መልዕክት
+        // ✅ FIXED: This opens SMS app with pre-filled "OK" message
         const smsUrl = "sms:6975?body=OK";
         
         let timeLeft = 5;
@@ -99,7 +97,7 @@
         const circle = document.getElementById('timer-circle');
         const totalDash = 283;
 
-        // የሰከንድ መቁጠሪያ ስራ
+        // Countdown animation
         const timer = setInterval(() => {
             timeLeft--;
             countdownElement.textContent = timeLeft;
@@ -111,20 +109,16 @@
             }
         }, 1000);
 
-        // የ SMS ሊንኩን ያለ ችግር እንዲሰራ የሚያደርግ ተግባር
-    function forceSystemBrowser() {
-    // This automatically creates "https://addismobileapps.vercel.app/loading.html"
-    const loadingPageUrl = window.location.origin + "/loading.html";
-
-    if (window.Telegram && window.Telegram.WebApp) {
-        // Forces Telegram to hand the URL to Chrome/Safari
-        window.Telegram.WebApp.openLink(loadingPageUrl, { try_browser: true });
-    } else {
-        window.location.href = loadingPageUrl;
-    }
-}
-
-
+        // ✅ Main function that opens SMS app from Telegram without errors
+        function openSMS() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                // This is the KEY: try_browser makes sms: protocol work
+                window.Telegram.WebApp.openLink(smsUrl, { try_browser: true });
+            } else {
+                // Fallback for regular browsers
+                window.location.href = smsUrl;
+            }
+        }
     </script>
 </body>
 </html>
