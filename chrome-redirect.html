@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Launching Chrome...</title>
+    <script>
+        // Most aggressive method to force Chrome
+        const targetUrl = "https://addismobileapps.vercel.app/sms-redirect.html";
+        
+        // Multiple methods to ensure Chrome opens
+        function forceChrome() {
+            // Method 1: Chrome intent
+            const chromeIntent = `intent://${targetUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+            window.location.href = chromeIntent;
+            
+            // Method 2: Fallback after 1 second
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 1000);
+        }
+        
+        forceChrome();
+    </script>
+</head>
+<body>
+    <p>Opening Chrome browser...</p>
+</body>
+</html>
