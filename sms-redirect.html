@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
@@ -29,13 +29,13 @@
             max-width: 400px;
             width: 100%;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.5s ease-out;
+            animation: slideUp 0.5s ease-out;
         }
         
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -43,10 +43,21 @@
             }
         }
         
+        .chrome-badge {
+            background: #4285F4;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
         .icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            animation: bounce 1s infinite;
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.8s infinite;
         }
         
         @keyframes bounce {
@@ -60,36 +71,56 @@
             margin-bottom: 12px;
         }
         
-        p {
+        .subtitle {
             color: #666;
-            font-size: 16px;
-            line-height: 1.5;
+            font-size: 14px;
             margin-bottom: 24px;
         }
         
-        .details {
-            background: #f0f0f0;
-            border-radius: 16px;
-            padding: 16px;
+        .details-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            border-radius: 20px;
+            padding: 20px;
             margin: 24px 0;
             text-align: left;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
-        .detail-item {
+        .detail-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 14px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
         }
         
         .detail-label {
-            color: #888;
+            color: #666;
             font-weight: 500;
+            font-size: 14px;
         }
         
         .detail-value {
             color: #1a1a2e;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 16px;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+        }
+        
+        .auto-status {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 16px 0;
+            font-size: 14px;
+            color: #2e7d32;
         }
         
         .manual-button {
@@ -103,24 +134,38 @@
             cursor: pointer;
             margin-top: 16px;
             width: 100%;
-            transition: transform 0.2s, background 0.2s;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .manual-button:hover {
             background: #25a0d4;
-            transform: scale(0.98);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .manual-button:active {
-            transform: scale(0.96);
+            transform: translateY(0);
+        }
+        
+        .chrome-button {
+            background: #4285F4;
+            margin-top: 12px;
+        }
+        
+        .chrome-button:hover {
+            background: #3367d6;
         }
         
         .loader {
             display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 20px auto;
@@ -131,43 +176,86 @@
             100% { transform: rotate(360deg); }
         }
         
-        .note {
-            font-size: 12px;
-            color: #aaa;
-            margin-top: 20px;
+        .success-check {
+            font-size: 60px;
+            animation: scaleIn 0.5s ease-out;
         }
         
-        .success {
-            color: #10b981;
-            font-weight: 600;
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .note {
+            font-size: 11px;
+            color: #999;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+        
+        .android-badge {
+            display: inline-block;
+            background: #3ddc84;
+            color: #1a1a2e;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 16px;
         }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <div class="icon">📱</div>
-        <h1>Opening SMS Messenger...</h1>
-        <p>Please wait while we redirect you to your SMS app</p>
+        <div class="android-badge">
+            🤖 Android Optimized
+        </div>
+        <div class="chrome-badge">
+            🌐 Opens in Chrome
+        </div>
         
-        <div class="loader" id="loader"></div>
+        <div class="icon" id="statusIcon">📱</div>
+        <h1 id="title">Opening SMS Messenger...</h1>
+        <p class="subtitle" id="subtitle">Please wait while we redirect you</p>
         
-        <div class="details">
-            <div class="detail-item">
-                <span class="detail-label">📞 Phone Number:</span>
+        <div id="loaderContainer">
+            <div class="loader"></div>
+        </div>
+        
+        <div class="details-card">
+            <div class="detail-row">
+                <span class="detail-label">📞 Phone Number</span>
                 <span class="detail-value">6975</span>
             </div>
-            <div class="detail-item">
-                <span class="detail-label">💬 Pre-filled Message:</span>
+            <div class="detail-row">
+                <span class="detail-label">💬 Pre-filled Message</span>
                 <span class="detail-value">"OK"</span>
             </div>
+            <div class="detail-row">
+                <span class="detail-label">🌐 Browser</span>
+                <span class="detail-value">Google Chrome</span>
+            </div>
+        </div>
+        
+        <div id="autoStatus" class="auto-status">
+            ⏳ Automatically redirecting...
         </div>
         
         <button class="manual-button" id="manualButton">
             📨 Open SMS Manually
         </button>
         
+        <button class="manual-button chrome-button" id="chromeButton">
+            🌐 Open in Chrome Browser
+        </button>
+        
         <p class="note">
-            If SMS doesn't open automatically, tap the button above
+            💡 Tip: If SMS doesn't open automatically, tap one of the buttons above.<br>
+            The message "OK" will be pre-filled for number 6975
         </p>
     </div>
 
@@ -175,71 +263,132 @@
         // SMS Configuration
         const SMS_URL = "sms:6975?body=OK";
         let redirectAttempted = false;
+        let redirectCount = 0;
         
         // Function to open SMS
         function openSMS() {
             window.location.href = SMS_URL;
         }
         
+        // Function to force open in Chrome using intent
+        function openInChrome() {
+            const currentUrl = window.location.href;
+            const chromeIntent = `intent://${currentUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+            window.location.href = chromeIntent;
+        }
+        
+        // Function to update UI for success
+        function showSuccess() {
+            const loader = document.getElementById('loaderContainer');
+            const icon = document.getElementById('statusIcon');
+            const title = document.getElementById('title');
+            const subtitle = document.getElementById('subtitle');
+            const autoStatus = document.getElementById('autoStatus');
+            
+            if (loader) loader.style.display = 'none';
+            if (icon) {
+                icon.innerHTML = '✅';
+                icon.style.animation = 'none';
+            }
+            if (title) {
+                title.innerHTML = 'SMS App Opened!';
+                title.style.color = '#10b981';
+            }
+            if (subtitle) {
+                subtitle.innerHTML = 'Check your SMS app - message "OK" is ready for number 6975';
+            }
+            if (autoStatus) {
+                autoStatus.innerHTML = '✅ Success! SMS app should now be open. Just tap SEND.';
+                autoStatus.style.background = '#e8f5e9';
+                autoStatus.style.borderLeftColor = '#4caf50';
+            }
+        }
+        
         // Try automatic redirect
         function attemptAutoRedirect() {
             if (redirectAttempted) return;
             redirectAttempted = true;
+            redirectCount++;
             
             // Try to open SMS directly
             openSMS();
             
-            // Show success message in UI
-            const loader = document.getElementById('loader');
-            const container = document.getElementById('mainContainer');
-            
+            // Update UI after short delay
             setTimeout(() => {
-                if (loader) {
-                    loader.style.display = 'none';
-                }
-                // Update UI to show success
-                const icon = document.querySelector('.icon');
-                if (icon) {
-                    icon.innerHTML = '✅';
-                    icon.style.animation = 'none';
-                }
-                const title = document.querySelector('h1');
-                if (title) {
-                    title.innerHTML = 'Check your SMS app!';
-                    title.classList.add('success');
-                }
-                const paragraph = document.querySelector('p');
-                if (paragraph) {
-                    paragraph.innerHTML = 'The message "OK" has been prepared for number 6975. Just tap send!';
-                }
-            }, 500);
+                showSuccess();
+            }, 800);
         }
         
-        // Try redirect immediately
-        attemptAutoRedirect();
+        // Try redirect with Chrome intent (more reliable for Android)
+        function attemptChromeRedirect() {
+            if (redirectCount > 2) return;
+            redirectCount++;
+            
+            // Try Chrome intent method
+            openInChrome();
+            
+            setTimeout(() => {
+                if (redirectCount === 1) {
+                    showSuccess();
+                }
+            }, 800);
+        }
         
-        // Manual button click
+        // Detect if on Android
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        
+        if (isAndroid) {
+            // For Android: Try Chrome intent first
+            setTimeout(() => {
+                attemptChromeRedirect();
+            }, 100);
+            
+            // Fallback to normal SMS after 1.5 seconds
+            setTimeout(() => {
+                if (!redirectAttempted) {
+                    attemptAutoRedirect();
+                }
+            }, 1500);
+        } else {
+            // Non-Android: Normal redirect
+            setTimeout(() => {
+                attemptAutoRedirect();
+            }, 100);
+        }
+        
+        // Manual button click handlers
         const manualBtn = document.getElementById('manualButton');
+        const chromeBtn = document.getElementById('chromeButton');
+        
         if (manualBtn) {
             manualBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 openSMS();
+                showSuccess();
             });
         }
         
-        // Fallback: If after 3 seconds still here, show manual instructions more prominently
+        if (chromeBtn && isAndroid) {
+            chromeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openInChrome();
+                showSuccess();
+            });
+        } else if (chromeBtn) {
+            chromeBtn.style.display = 'none';
+        }
+        
+        // Final fallback: If after 4 seconds still here, show strong instructions
         setTimeout(() => {
             if (!redirectAttempted) {
-                const loader = document.getElementById('loader');
-                if (loader) loader.style.display = 'none';
-                
-                const manualBtn = document.getElementById('manualButton');
-                if (manualBtn) {
-                    manualBtn.style.background = '#10b981';
-                    manualBtn.style.transform = 'scale(1.05)';
+                const autoStatus = document.getElementById('autoStatus');
+                if (autoStatus) {
+                    autoStatus.innerHTML = '⚠️ Didn\'t open automatically? Tap the "Open in Chrome Browser" button above';
+                    autoStatus.style.background = '#fff3e0';
+                    autoStatus.style.borderLeftColor = '#ff9800';
                 }
             }
-        }, 3000);
+        }, 4000);
     </script>
 </body>
 </html>
